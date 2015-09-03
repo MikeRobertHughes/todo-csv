@@ -35,16 +35,27 @@ class Todo
   def view_todos
     puts "Unfinished"
     @todos.each_with_index do |todo, index|
-      puts "#{index + 1}) #{todo["name"]}"
+      if todo['completed'] == "no"
+        puts "#{index + 1}) #{todo["name"]}"
+      end
     end
     puts "Completed"
+    @todos.each_with_index do |todo, index|
+      if todo['completed'] == "yes"
+          puts "#{index + 1}) #{todo["name"]}"
+      end
+    end
   end
 
   def add_todo
     puts "Name of Todo > "
+    @todos << [get_input, "no"]
   end
 
   def mark_todo
+    puts "Which todo have you finished?"
+    response = get_input.to_i
+    @todos[response - 1]["completed"] = "yes"
   end
 
   def todos
@@ -52,6 +63,7 @@ class Todo
   end
 
   private # Don't edit the below methods, but use them to get player input and to save the csv file
+
   def get_input
     gets.chomp
   end
